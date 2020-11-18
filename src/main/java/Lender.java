@@ -49,8 +49,8 @@ final class Lender {
             loanApplicant.setStatus(ApplicationStatus.OFFERED);
             loanApplicant.setOfferStartDate(LocalDate.now());
             loanApplicant.setOfferExpirationDate(LocalDate.now().plusDays(3));
-            pendingBalance = (int) loanApplicant.getRequestedAmount();
-            balance -= pendingBalance;
+            pendingBalance += (int) loanApplicant.getRequestedAmount();
+            balance -= (int) loanApplicant.getRequestedAmount();
         }
     }
 
@@ -63,5 +63,10 @@ final class Lender {
 
     public int getPendingBalance() {
         return this.pendingBalance;
+    }
+
+    public void expiredLoan(LoanApplicant loanApplicant) {
+        pendingBalance -= (int) loanApplicant.getRequestedAmount();
+        balance += (int) loanApplicant.getRequestedAmount();
     }
 }
