@@ -32,4 +32,11 @@ final class LenderTest {
         LoanApplicant loanApplicant = new LoanApplicant(3000, 700000, 3000, 1000, 700);
         Assertions.assertEquals(ApplicationStatus.INSUFFICIENT_FUNDS, lender.checkLoan(loanApplicant));
     }
+
+    @Test
+
+    void calculate_monthly_mortgage_pmt() {
+        Assertions.assertEquals(1193.54,lender.calculateMonthlyMortgagePmt(250000, 0.04, 360),0.01);
+    }
+
 }

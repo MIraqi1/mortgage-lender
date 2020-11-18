@@ -21,4 +21,8 @@ final class Lender {
 
         return null;
     }
+
+    public double calculateMonthlyMortgagePmt(int principal, double interestRate, int numberOfPayments) {
+        return principal * ((interestRate / 12.0) * Math.pow(1 + (interestRate / 12.0), numberOfPayments) / (Math.pow(1 + (interestRate / 12.0), numberOfPayments) - 1));
+    }
 }
