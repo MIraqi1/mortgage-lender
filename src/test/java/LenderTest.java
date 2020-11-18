@@ -81,4 +81,13 @@ final class LenderTest {
         lender.offerLoan(loanApplicant);
         Assertions.assertEquals(3, loanApplicant.getOfferExpirationDays());
     }
+
+    @Test
+    void check_pending_funds() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
+        lender.checkLoan(loanApplicant);
+        lender.offerLoan(loanApplicant);
+        Assertions.assertEquals(150000, lender.getBalance());
+        Assertions.assertEquals(350000, lender.getPendingBalance());
+    }
 }

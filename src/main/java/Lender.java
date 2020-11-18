@@ -3,6 +3,9 @@ import java.util.Date;
 
 final class Lender {
 
+    private int pendingBalance;
+
+
     public Lender(int balance) {
         this.balance = balance;
     }
@@ -46,13 +49,19 @@ final class Lender {
             loanApplicant.setStatus(ApplicationStatus.OFFERED);
             loanApplicant.setOfferStartDate(LocalDate.now());
             loanApplicant.setOfferExpirationDate(LocalDate.now().plusDays(3));
+            pendingBalance = (int) loanApplicant.getRequestedAmount();
+            balance -= pendingBalance;
         }
     }
 
     public void sendLoan(LoanApplicant loanApplicant) {
         if(loanApplicant.getStatus() == ApplicationStatus.APPROVED) {
-            balance -= loanApplicant.getRequestedAmount();
+            pendingBalance -= loanApplicant.getRequestedAmount();
             loanApplicant.setStatus(ApplicationStatus.MONEY_ISSUED);
         }
+    }
+
+    public int getPendingBalance() {
+        return this.pendingBalance;
     }
 }
