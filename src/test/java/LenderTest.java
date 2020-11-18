@@ -26,4 +26,10 @@ final class LenderTest {
         lender.addFunds(100000);
         Assertions.assertEquals(600000,lender.getBalance());
     }
+
+    @Test
+    void deny_application_when_amount_is_insufficient() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 700000, 3000, 1000, 700);
+        Assertions.assertEquals(ApplicationStatus.INSUFFICIENT_FUNDS, lender.checkLoan(loanApplicant));
+    }
 }
