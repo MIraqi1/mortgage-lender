@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.util.Date;
+
 final class Lender {
 
     public Lender(int balance) {
@@ -41,6 +44,8 @@ final class Lender {
     public void offerLoan(LoanApplicant loanApplicant) {
         if(loanApplicant.getStatus() == ApplicationStatus.QUALIFIED) {
             loanApplicant.setStatus(ApplicationStatus.OFFERED);
+            loanApplicant.setOfferStartDate(LocalDate.now());
+            loanApplicant.setOfferExpirationDate(LocalDate.now().plusDays(3));
         }
     }
 

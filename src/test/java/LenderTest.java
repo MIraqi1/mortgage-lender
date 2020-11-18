@@ -73,4 +73,12 @@ final class LenderTest {
         lender.sendLoan(loanApplicant);
         Assertions.assertEquals(150000, lender.getBalance());
     }
+
+    @Test
+    void set_offer_expiration_date() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
+        lender.checkLoan(loanApplicant);
+        lender.offerLoan(loanApplicant);
+        Assertions.assertEquals(3, loanApplicant.getOfferExpirationDays());
+    }
 }

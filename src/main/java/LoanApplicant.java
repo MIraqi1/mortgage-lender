@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.Period;
+
 final class LoanApplicant {
 	private final int  creditScore;
 	private final int  downPayment;
@@ -6,6 +9,8 @@ final class LoanApplicant {
 	private final long requestedAmount;
     private final int  amountSaved;
     private ApplicationStatus status;
+    private LocalDate offerStartDate;
+	private LocalDate offerEndDate;
 
 	LoanApplicant(final int downPayment, final long requestedAmount, final int monthlyGrossIncome, final int monthlyDebtLoad, final int creditScore, int amountSaved) {
 		this.downPayment = downPayment;
@@ -51,5 +56,17 @@ final class LoanApplicant {
 			status = ApplicationStatus.OFFER_ACCEPTED;
 		}
 
+	}
+
+	public void setOfferStartDate(LocalDate startDate) {
+		this.offerStartDate = startDate;
+	}
+
+	public void setOfferExpirationDate(LocalDate endDate) {
+		this.offerEndDate = endDate;
+	}
+
+	public int getOfferExpirationDays() {
+		return Period.between(offerStartDate, offerEndDate).getDays();
 	}
 }
