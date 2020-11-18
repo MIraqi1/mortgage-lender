@@ -9,4 +9,8 @@ final class Lender {
     public int getBalance() {
         return this.balance;
     }
+
+    public void addFunds(int newFunds) {
+        this.balance += newFunds;
+    }
 }
