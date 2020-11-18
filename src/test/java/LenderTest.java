@@ -29,7 +29,8 @@ final class LenderTest {
     @Test
     void deny_application_when_amount_is_insufficient() {
         LoanApplicant loanApplicant = new LoanApplicant(3000, 700000, 3000, 1000, 700, 87500);
-        Assertions.assertEquals(ApplicationStatus.INSUFFICIENT_FUNDS, lender.checkLoan(loanApplicant));
+        lender.checkLoan(loanApplicant);
+        Assertions.assertEquals(ApplicationStatus.INSUFFICIENT_FUNDS, loanApplicant.getStatus());
     }
 
     @Test
@@ -40,13 +41,25 @@ final class LenderTest {
     @Test
     void determine_to_offer_loan() {
         LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
-        Assertions.assertEquals(ApplicationStatus.QUALIFIED, lender.checkLoan(loanApplicant));
+        lender.checkLoan(loanApplicant);
+        Assertions.assertEquals(ApplicationStatus.QUALIFIED, loanApplicant.getStatus());
     }
 
     @Test
     void offer_loan_to_qualified_candidate() {
         LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
-        Assertions.assertEquals(ApplicationStatus.QUALIFIED, lender.checkLoan(loanApplicant));
-        Assertions.assertEquals(true, loanApplicant.isApproved());
+        lender.checkLoan(loanApplicant);
+        lender.offerLoan(loanApplicant);
+        Assertions.assertEquals(ApplicationStatus.OFFERED, loanApplicant.getStatus());
+    }
+
+    @Test
+    void approve_offer_accepted_by_applicant() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
+        lender.checkLoan(loanApplicant);
+        lender.offerLoan(loanApplicant);
+        loanApplicant.acceptOffer();
+        lender.approveLoan(loanApplicant);
+        Assertions.assertEquals(ApplicationStatus.APPROVED, loanApplicant.getStatus());
     }
 }

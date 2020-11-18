@@ -14,21 +14,33 @@ final class Lender {
         this.balance += newFunds;
     }
 
-    public ApplicationStatus checkLoan(LoanApplicant loanApplicant) {
+    public void checkLoan(LoanApplicant loanApplicant) {
         if(loanApplicant.getRequestedAmount() > this.balance) {
-            return ApplicationStatus.INSUFFICIENT_FUNDS;
-
+            loanApplicant.setStatus(ApplicationStatus.INSUFFICIENT_FUNDS);
+            return;
         }
         double debtToIncome = (double)loanApplicant.getMonthlyDebtLoad() / loanApplicant.getMonthlyGrossIncome() * 100;
         double amountSaved = (double)loanApplicant.getAmountSaved() / loanApplicant.getRequestedAmount() * 100;
         if (loanApplicant.getCreditScore() > 620 && debtToIncome < 36 && amountSaved >= 25) {
-            loanApplicant.setApproved(true);
-            return ApplicationStatus.QUALIFIED;
+            loanApplicant.setStatus(ApplicationStatus.QUALIFIED);
+        } else {
+            loanApplicant.setStatus(ApplicationStatus.DENIED);
         }
-        return ApplicationStatus.DENIED;
     }
 
     public double calculateMonthlyMortgagePmt(int principal, double interestRate, int numberOfPayments) {
         return principal * ((interestRate / 12.0) * Math.pow(1 + (interestRate / 12.0), numberOfPayments) / (Math.pow(1 + (interestRate / 12.0), numberOfPayments) - 1));
+    }
+
+    public void approveLoan(LoanApplicant loanApplicant) {
+        if(loanApplicant.getStatus() == ApplicationStatus.OFFER_ACCEPTED) {
+            loanApplicant.setStatus(ApplicationStatus.APPROVED);
+        }
+    }
+
+    public void offerLoan(LoanApplicant loanApplicant) {
+        if(loanApplicant.getStatus() == ApplicationStatus.QUALIFIED) {
+            loanApplicant.setStatus(ApplicationStatus.OFFERED);
+        }
     }
 }

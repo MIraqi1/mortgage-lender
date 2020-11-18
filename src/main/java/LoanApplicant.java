@@ -5,7 +5,7 @@ final class LoanApplicant {
 	private final int  monthlyGrossIncome;
 	private final long requestedAmount;
     private final int  amountSaved;
-    private boolean isApproved = false;
+    private ApplicationStatus status;
 
 	LoanApplicant(final int downPayment, final long requestedAmount, final int monthlyGrossIncome, final int monthlyDebtLoad, final int creditScore, int amountSaved) {
 		this.downPayment = downPayment;
@@ -38,11 +38,18 @@ final class LoanApplicant {
 
 	int getAmountSaved() { return amountSaved; }
 
-	public boolean isApproved() {
-		return isApproved;
+	ApplicationStatus getStatus() {
+		return status;
 	}
 
-	public void setApproved(boolean approved) {
-		isApproved = approved;
+	public void setStatus(ApplicationStatus status) {
+		this.status = status;
+	}
+
+	public void acceptOffer() {
+		if(status == ApplicationStatus.OFFERED) {
+			status = ApplicationStatus.OFFER_ACCEPTED;
+		}
+
 	}
 }
