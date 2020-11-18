@@ -17,9 +17,14 @@ final class Lender {
     public ApplicationStatus checkLoan(LoanApplicant loanApplicant) {
         if(loanApplicant.getRequestedAmount() > this.balance) {
             return ApplicationStatus.INSUFFICIENT_FUNDS;
-        }
 
-        return null;
+        }
+        double debtToIncome = (double)loanApplicant.getMonthlyDebtLoad() / loanApplicant.getMonthlyGrossIncome() * 100;
+        double amountSaved = (double)loanApplicant.getDownPayment() / loanApplicant.getRequestedAmount() * 100;
+        if (loanApplicant.getCreditScore() > 620 && debtToIncome < 36 && amountSaved >= 25) {
+            return ApplicationStatus.QUALIFIED;
+        }
+        return ApplicationStatus.DENIED;
     }
 
     public double calculateMonthlyMortgagePmt(int principal, double interestRate, int numberOfPayments) {

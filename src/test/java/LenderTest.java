@@ -34,9 +34,13 @@ final class LenderTest {
     }
 
     @Test
-
     void calculate_monthly_mortgage_pmt() {
         Assertions.assertEquals(1193.54,lender.calculateMonthlyMortgagePmt(250000, 0.04, 360),0.01);
     }
 
+    @Test
+    void determine_to_offer_loan() {
+        LoanApplicant loanApplicant = new LoanApplicant(87500, 350000, 4000, 1000, 700);
+        Assertions.assertEquals(ApplicationStatus.QUALIFIED, lender.checkLoan(loanApplicant));
+    }
 }
