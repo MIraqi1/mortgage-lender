@@ -43,4 +43,11 @@ final class Lender {
             loanApplicant.setStatus(ApplicationStatus.OFFERED);
         }
     }
+
+    public void sendLoan(LoanApplicant loanApplicant) {
+        if(loanApplicant.getStatus() == ApplicationStatus.APPROVED) {
+            balance -= loanApplicant.getRequestedAmount();
+            loanApplicant.setStatus(ApplicationStatus.MONEY_ISSUED);
+        }
+    }
 }

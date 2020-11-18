@@ -62,4 +62,15 @@ final class LenderTest {
         lender.approveLoan(loanApplicant);
         Assertions.assertEquals(ApplicationStatus.APPROVED, loanApplicant.getStatus());
     }
+
+    @Test
+    void send_requested_loan_amount() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
+        lender.checkLoan(loanApplicant);
+        lender.offerLoan(loanApplicant);
+        loanApplicant.acceptOffer();
+        lender.approveLoan(loanApplicant);
+        lender.sendLoan(loanApplicant);
+        Assertions.assertEquals(150000, lender.getBalance());
+    }
 }
