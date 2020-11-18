@@ -1,7 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +28,7 @@ final class LenderTest {
 
     @Test
     void deny_application_when_amount_is_insufficient() {
-        LoanApplicant loanApplicant = new LoanApplicant(3000, 700000, 3000, 1000, 700);
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 700000, 3000, 1000, 700, 87500);
         Assertions.assertEquals(ApplicationStatus.INSUFFICIENT_FUNDS, lender.checkLoan(loanApplicant));
     }
 
@@ -40,7 +39,14 @@ final class LenderTest {
 
     @Test
     void determine_to_offer_loan() {
-        LoanApplicant loanApplicant = new LoanApplicant(87500, 350000, 4000, 1000, 700);
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
         Assertions.assertEquals(ApplicationStatus.QUALIFIED, lender.checkLoan(loanApplicant));
+    }
+
+    @Test
+    void offer_loan_to_qualified_candidate() {
+        LoanApplicant loanApplicant = new LoanApplicant(3000, 350000, 4000, 1000, 700, 87500);
+        Assertions.assertEquals(ApplicationStatus.QUALIFIED, lender.checkLoan(loanApplicant));
+        Assertions.assertEquals(true, loanApplicant.isApproved());
     }
 }

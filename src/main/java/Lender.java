@@ -20,8 +20,9 @@ final class Lender {
 
         }
         double debtToIncome = (double)loanApplicant.getMonthlyDebtLoad() / loanApplicant.getMonthlyGrossIncome() * 100;
-        double amountSaved = (double)loanApplicant.getDownPayment() / loanApplicant.getRequestedAmount() * 100;
+        double amountSaved = (double)loanApplicant.getAmountSaved() / loanApplicant.getRequestedAmount() * 100;
         if (loanApplicant.getCreditScore() > 620 && debtToIncome < 36 && amountSaved >= 25) {
+            loanApplicant.setApproved(true);
             return ApplicationStatus.QUALIFIED;
         }
         return ApplicationStatus.DENIED;
